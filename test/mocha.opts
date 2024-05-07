@@ -1,0 +1,5 @@
+--require esm
+--require ts-node/register
+--require chai/register
+--require sinon/register
+--recursive
