@@ -12,11 +12,17 @@ const {
   guestRoutes,
   documentRoutes,
 } = require("../src/routes"); // Import your routes
-
+require("dotenv").config();
 // app.js
 // Use express.json() middleware
 app.use(express.json());
 const apiRoutes = express.Router();
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  })
+);
 
 apiRoutes.use("/users", userRoutes);
 apiRoutes.use("/events", eventRoutes);
