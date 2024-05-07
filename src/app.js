@@ -1,6 +1,7 @@
 // app.js
 
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const db = require("../src/config/db"); // Import your Sequelize instance
 const sequelize = require("./config/db");
