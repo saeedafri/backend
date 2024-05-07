@@ -51,7 +51,7 @@ let createEvent = async (req, res) => {
   }
 };
 
-let getAllEvents = async (req, res) => {
+let getAllEvents = async (_req, res) => {
   try {
     const events = await Event.findAll();
     res.status(200).json(events);

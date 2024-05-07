@@ -6,6 +6,6 @@ const {
 } = require("../controllers/documents");
 
 router.post("/createDocument", createDocument); // Create a new document
-router.get("/getAllDocumentsList", getAllDocumentsForEvent); // Get all documents for a specific event
+router.get("/getAllDocumentsList", getAllDocumentsForEvent);
 
 module.exports = router;

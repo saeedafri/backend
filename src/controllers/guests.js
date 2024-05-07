@@ -21,13 +21,13 @@ let createGuest = async (req, res) => {
 };
 
 // Get all guests for a specific event
-let getAllGuestsForEvent = async (req, res) => {
-  const { eventId } = req.params;
+let getAllGuestsForEvent = async (_req, res) => {
+  // const { eventId } = req.params;
 
   try {
     // Adjusted to not include associations
     const guests = await Guest.findAll({
-      where: { eventId: Number(eventId) },
+      // where: { eventId: Number(eventId) },
     });
     res.status(200).json(guests);
   } catch (error) {

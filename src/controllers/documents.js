@@ -22,13 +22,13 @@ let createDocument = async (req, res) => {
 };
 
 // Get all documents for a specific event
-let getAllDocumentsForEvent = async (req, res) => {
-  const { eventId } = req.params;
+let getAllDocumentsForEvent = async (_req, res) => {
+  // const { eventId } = req.params;
 
   try {
     // Adjusted to not include associations
     const documents = await Document.findAll({
-      where: { eventId: Number(eventId) },
+      // where: { eventId: Number(eventId) },
     });
     res.status(200).json(documents);
   } catch (error) {
