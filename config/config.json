@@ -1,23 +1,23 @@
 {
   "development": {
     "username": "root",
-    "password": "admin",
+    "password": "jnrudkzSXqxkYLGcSSGJGvLkcFwWJhIa",
     "database": "event_organizing_application",
-    "host": "127.0.0.1",
+    "host": "roundhouse.proxy.rlwy.net",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "admin",
+    "password": "jnrudkzSXqxkYLGcSSGJGvLkcFwWJhIa",
     "database": "event_organizing_application_testing",
-    "host": "127.0.0.1",
+    "host": "roundhouse.proxy.rlwy.net",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "admin",
+    "password": "jnrudkzSXqxkYLGcSSGJGvLkcFwWJhIa",
     "database": "event_organizing_application_production",
-    "host": "127.0.0.1",
+    "host": "roundhouse.proxy.rlwy.net",
     "dialect": "mysql"
   }
 }
