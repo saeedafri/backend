@@ -1,52 +1,64 @@
-up: async (queryInterface, Sequelize) => {
-  await queryInterface.createTable("Events", {
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../config/database"); // Adjust the path according to your project structure
+
+class Event extends Model {}
+
+Event.init(
+  {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     eventName: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     eventDescription: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
     },
     eventDate: {
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
     },
     eventTime: {
-      type: Sequelize.TIME,
+      type: DataTypes.TIME,
     },
     eventDuration: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     },
     eventLocationName: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     eventGuestIDs: {
-      type: Sequelize.JSON,
+      type: DataTypes.JSON,
       allowNull: false,
     },
     guestNotificationType: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       defaultValue: "Email",
     },
     reminderDurationMinutes: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 60,
     },
     createdAt: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
     },
     updatedAt: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: DataTypes.DATE,
     },
-  });
-};
+  },
+  {
+    sequelize,
+    modelName: "Event",
+    tableName: "Events",
+  }
+);
+
+module.exports = Event;
