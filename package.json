@@ -7,8 +7,7 @@
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "build-tools": "npm install --global windows-build-tools",
-    "test": "mocha --require esm",
-    "install": "npm install --omit=dev"
+    "test": "mocha --require esm"
   },
   "keywords": [
     "event",
