@@ -3,9 +3,7 @@ const cors = require("cors");
 const app = express();
 const db = require("../src/config/db");
 const sequelize = require("./config/db");
-const { User, Location, Event, Guest, Document } = require("../src/models");
 const {
-  userRoutes,
   locationRoutes,
   eventRoutes,
   guestRoutes,
@@ -24,7 +22,6 @@ app.use(
   })
 );
 
-apiRoutes.use("/users", userRoutes);
 apiRoutes.use("/events", eventRoutes);
 apiRoutes.use("/locations", locationRoutes);
 apiRoutes.use("/guests", guestRoutes);
