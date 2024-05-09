@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../config/database"); // Adjust the path according to your project structure
+const sequelize = require("../config/db"); // Adjust the path according to your project structure
 
 class Event extends Model {}
 
