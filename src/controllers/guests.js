@@ -1,8 +1,6 @@
-// src/controllers/guestsController.js
+const logger = require("../utils/logger"); // Ensure this path matches where your logger.js is located
+const Guest = require("../models/guest");
 
-const Guest = require("../models/guest"); // Adjust the path according to your project structure
-
-// Create a new guest
 let createGuest = async (req, res) => {
   const { firstName, lastName, eventId } = req.body;
 
@@ -12,32 +10,31 @@ let createGuest = async (req, res) => {
       lastName,
       eventId,
     });
+    logger.info(
+      `Guest created successfully. First Name: ${firstName}, Last Name: ${lastName}`
+    );
     res.status(201).json(newGuest);
   } catch (error) {
+    logger.error(`Error creating guest: ${error.message}`);
     res
       .status(500)
       .json({ error: "An error occurred while creating the guest." });
   }
 };
 
-// Get all guests for a specific event
 let getAllGuestsForEvent = async (_req, res) => {
-  // const { eventId } = req.params;
-
   try {
-    // Adjusted to not include associations
-    const guests = await Guest.findAll({
-      // where: { eventId: Number(eventId) },
-    });
+    const guests = await Guest.findAll({});
+    logger.info(`Fetched all guests for event.`);
     res.status(200).json(guests);
   } catch (error) {
+    logger.error(`Error fetching guests: ${error.message}`);
     res
       .status(500)
       .json({ error: "An error occurred while fetching the guests." });
   }
 };
 
-// Update a guest
 let updateGuest = async (req, res) => {
   const { id } = req.params;
   const { firstName, lastName } = req.body;
@@ -53,18 +50,19 @@ let updateGuest = async (req, res) => {
       }
     );
     if (updated) {
+      logger.info(`Guest updated successfully. ID: ${id}`);
       res.status(200).json({ message: "Guest updated successfully." });
     } else {
       res.status(404).json({ message: "Guest not found." });
     }
   } catch (error) {
+    logger.error(`Error updating guest: ${error.message}`);
     res
       .status(500)
       .json({ error: "An error occurred while updating the guest." });
   }
 };
 
-// Delete a guest
 let deleteGuest = async (req, res) => {
   const { id } = req.params;
 
@@ -73,18 +71,19 @@ let deleteGuest = async (req, res) => {
       where: { id: Number(id) },
     });
     if (deleted) {
+      logger.info(`Guest deleted successfully. ID: ${id}`);
       res.status(200).json({ message: "Guest deleted successfully." });
     } else {
       res.status(404).json({ message: "Guest not found." });
     }
   } catch (error) {
+    logger.error(`Error deleting guest: ${error.message}`);
     res
       .status(500)
       .json({ error: "An error occurred while deleting the guest." });
   }
 };
 
-// Corrected export
 module.exports = {
   createGuest,
   getAllGuestsForEvent,

@@ -1,17 +1,15 @@
-// src/controllers/eventsController.js
-
-const Event = require("../models/event"); // Adjust the path according to your project structure
-const Location = require("../models/location"); // Import the Location model
+const Event = require("../models/event");
+const Location = require("../models/location");
 const { checkVenueAvailability } = require("../services/eventService");
-const User = require("../models/user"); // Import the User model
+const User = require("../models/user");
 const ControllerError = require("../utils/errors");
+const logger = require("../utils/logger");
 
 let createEvent = async (req, res) => {
   const { name, description, date, time, duration, locationId, userId } =
     req.body;
 
   try {
-    // Check if the user exists
     const user = await User.findByPk(userId);
     if (!user) {
       throw new ControllerError(
@@ -20,10 +18,9 @@ let createEvent = async (req, res) => {
       );
     }
 
-    // Check venue availability
     const venue = await Location.findByPk(locationId);
-    const startTime = new Date(date); // Assuming date is the start time
-    const endTime = new Date(date.getTime() + duration * 60000); // Adjust based on your actual duration handling
+    const startTime = new Date(date);
+    const endTime = new Date(date.getTime() + duration * 60000);
 
     if (await checkVenueAvailability(venue, startTime, endTime)) {
       throw new Error(
@@ -31,7 +28,6 @@ let createEvent = async (req, res) => {
       );
     }
 
-    // Proceed with event creation if no overlapping events found
     const newEvent = await Event.create({
       name,
       description,
@@ -39,10 +35,12 @@ let createEvent = async (req, res) => {
       time,
       duration,
       locationId,
-      userId, // Link the event to the user
+      userId,
     });
+    logger.info(`Event created successfully. Event ID: ${newEvent.id}`);
     res.status(201).json(newEvent);
   } catch (error) {
+    logger.error(`Error creating event: ${error.message}`);
     const controllerError = new ControllerError(
       "CONTROLLER_ERROR",
       error.message
@@ -54,8 +52,10 @@ let createEvent = async (req, res) => {
 let getAllEvents = async (_req, res) => {
   try {
     const events = await Event.findAll();
+    logger.info(`Fetched all events.`);
     res.status(200).json(events);
   } catch (error) {
+    logger.error(`Error fetching events: ${error.message}`);
     const controllerError = new ControllerError(
       "CONTROLLER_ERROR",
       error.message

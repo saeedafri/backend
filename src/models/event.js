@@ -32,13 +32,13 @@ const Event = sequelize.define(
   }
 );
 
-Event.hasMany(DocumentEvent, { foreignKey: "eventId" });
-Event.hasMany(GuestEvent, { foreignKey: "eventId" });
-Location.hasMany(Event, { foreignKey: "locationId" });
-User.hasMany(Event, { foreignKey: "userId" });
-DocumentEvent.belongsTo(Event, { foreignKey: "eventId" });
-GuestEvent.belongsTo(Event, { foreignKey: "eventId" });
-Event.belongsTo(Location, { foreignKey: "locationId" });
-Event.belongsTo(User, { foreignKey: "userId" });
+// Event.hasMany(DocumentEvent, { foreignKey: "eventId" });
+// Event.hasMany(GuestEvent, { foreignKey: "eventId" });
+// Location.hasMany(Event, { foreignKey: "locationId" });
+// User.hasMany(Event, { foreignKey: "userId" });
+// DocumentEvent.belongsTo(Event, { foreignKey: "eventId" });
+// GuestEvent.belongsTo(Event, { foreignKey: "eventId" });
+// Event.belongsTo(Location, { foreignKey: "locationId" });
+// Event.belongsTo(User, { foreignKey: "userId" });
 
 module.exports = Event;

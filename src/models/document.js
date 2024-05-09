@@ -22,7 +22,7 @@ const Document = sequelize.define(
 );
 
 // Define the association
-Document.hasMany(DocumentEvent, { foreignKey: "documentId" });
-DocumentEvent.belongsTo(Document, { foreignKey: "documentId" });
+// Document.hasMany(DocumentEvent, { foreignKey: "documentId" });
+// DocumentEvent.belongsTo(Document, { foreignKey: "documentId" });
 
 module.exports = Document;

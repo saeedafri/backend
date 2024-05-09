@@ -28,7 +28,7 @@ const Guest = sequelize.define(
 );
 
 // Define the association
-Guest.hasMany(GuestEvent, { foreignKey: "guestId" });
-GuestEvent.belongsTo(Guest, { foreignKey: "guestId" });
+// Guest.hasMany(GuestEvent, { foreignKey: "guestId" });
+// GuestEvent.belongsTo(Guest, { foreignKey: "guestId" });
 
 module.exports = Guest;

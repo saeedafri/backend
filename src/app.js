@@ -1,22 +1,21 @@
-// app.js
-
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const db = require("../src/config/db"); // Import your Sequelize instance
+const db = require("../src/config/db");
 const sequelize = require("./config/db");
-const { User, Location, Event, Guest, Document } = require("../src/models"); // Import your models
+const { User, Location, Event, Guest, Document } = require("../src/models");
 const {
   userRoutes,
   locationRoutes,
   eventRoutes,
   guestRoutes,
   documentRoutes,
-} = require("../src/routes"); // Import your routes
+} = require("../src/routes");
 require("dotenv").config();
-// app.js
-// Use express.json() middleware
+const logger = require("./utils/logger");
 app.use(express.json());
+logger.info("Application started");
+
 const apiRoutes = express.Router();
 app.use(
   cors({
@@ -32,12 +31,18 @@ apiRoutes.use("/guests", guestRoutes);
 apiRoutes.use("/documents", documentRoutes);
 
 app.use("/api", apiRoutes);
+
 sequelize
   .sync()
-  .then(() => console.log("Database & tables created"))
-  .catch((err) => console.error("Error creating database & tables:", err));
+  .then(() => {
+    logger.info("Database & tables created successfully");
+  })
+  .catch((err) => {
+    logger.error("Error creating database & tables:", err);
+  });
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  logger.info(`Server is running on port ${PORT}`);
 });

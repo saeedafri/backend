@@ -1,9 +1,7 @@
-// src/controllers/documentsController.js
-
 const express = require("express");
-const Document = require("../models/document"); // Adjust the path according to your project structure
+const Document = require("../models/document");
+const logger = require("../utils/logger");
 
-// Create a new document
 let createDocument = async (req, res) => {
   const { eventId, fileName, filePath } = req.body;
 
@@ -13,30 +11,31 @@ let createDocument = async (req, res) => {
       fileName,
       filePath,
     });
+    logger.info(
+      `Document created successfully. Event ID: ${eventId}, File Name: ${fileName}`
+    );
     res.status(201).json(newDocument);
   } catch (error) {
+    logger.error(`Error creating document: ${error.message}`);
     res
       .status(500)
       .json({ error: "An error occurred while creating the document." });
   }
 };
 
-// Get all documents for a specific event
 let getAllDocumentsForEvent = async (_req, res) => {
-  // const { eventId } = req.params;
-
   try {
-    // Adjusted to not include associations
-    const documents = await Document.findAll({
-      // where: { eventId: Number(eventId) },
-    });
+    const documents = await Document.findAll({});
+    logger.info(`Fetched all documents for event.`);
     res.status(200).json(documents);
   } catch (error) {
+    logger.error(`Error fetching documents: ${error.message}`);
     res
       .status(500)
       .json({ error: "An error occurred while fetching the documents." });
   }
 };
+
 module.exports = {
   createDocument,
   getAllDocumentsForEvent,

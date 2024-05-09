@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize");
+const logger = require("../utils/logger");
 require("dotenv").config();
 
 const DB_USER = process.env.DB_USER;
@@ -26,12 +27,26 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
 sequelize
   .authenticate()
   .then(() => {
-    console.log(
+    logger.info(
+      "Database configuration:",
+      JSON.stringify(
+        {
+          DB_USER,
+          DB_PASS,
+          DB_HOST,
+          DB_PORT,
+          DB_NAME,
+        },
+        null,
+        2
+      )
+    );
+    logger.info(
       "Connection to the database has been established successfully."
     );
   })
   .catch((error) => {
-    console.error("Unable to connect to the database:", error);
+    logger.error("Unable to connect to the database:", error);
   });
 
 module.exports = sequelize;

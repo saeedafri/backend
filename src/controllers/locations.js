@@ -1,8 +1,6 @@
-// src/controllers/locationsController.js
+const Location = require("../models/location");
+const logger = require("../utils/logger");
 
-const Location = require("../models/location"); // Adjust the path according to your project structure
-
-// Create a new location
 let createLocation = async (req, res) => {
   const { city, venue } = req.body;
 
@@ -11,27 +9,31 @@ let createLocation = async (req, res) => {
       city,
       venue,
     });
+    logger.info(
+      `Location created successfully. City: ${city}, Venue: ${venue}`
+    );
     res.status(201).json(newLocation);
   } catch (error) {
+    logger.error(`Error creating location: ${error.message}`);
     res
       .status(500)
       .json({ error: "An error occurred while creating the location." });
   }
 };
 
-// Get all locations
 let getAllLocations = async (req, res) => {
   try {
     const locations = await Location.findAll();
+    logger.info(`Fetched all locations.`);
     res.status(200).json(locations);
   } catch (error) {
+    logger.error(`Error fetching locations: ${error.message}`);
     res
       .status(500)
       .json({ error: "An error occurred while fetching the locations." });
   }
 };
 
-// Corrected export
 module.exports = {
   createLocation,
   getAllLocations,
