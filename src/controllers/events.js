@@ -4,6 +4,23 @@ const { checkVenueAvailability } = require("../services/eventService");
 const User = require("../models/user");
 const ControllerError = require("../utils/errors");
 const logger = require("../utils/logger");
+const axios = require("axios");
+const axios = require("axios");
+require("dotenv").config();
+
+async function translateText(text, sourceLanguage, targetLanguage = "en") {
+  const url = `${
+    process.env.MYMEMORY_TRANSLATION_API_URL
+  }?q=${encodeURIComponent(text)}&langpair=${sourceLanguage}|${targetLanguage}`;
+  try {
+    const response = await axios.get(url);
+    const translatedText = response.data.responseData.translatedText;
+    return translatedText;
+  } catch (error) {
+    console.error("Error translating text:", error.message);
+    return null;
+  }
+}
 
 let createEvent = async (req, res) => {
   const { name, description, date, time, duration, locationId, userId } =
@@ -28,9 +45,12 @@ let createEvent = async (req, res) => {
       );
     }
 
+    const translatedName = await translateText(name, "hi", "en");
+    const translatedDescription = await translateText(description, "hi", "en");
+
     const newEvent = await Event.create({
-      name,
-      description,
+      name: translatedName,
+      description: translatedDescription,
       date,
       time,
       duration,
