@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const db = require("../src/config/db");
-const sequelize = require("./config/db");
+const setupDatabase = require("./config/setUpDatabase");
+const logger = require("./utils/logger");
 const {
   locationRoutes,
   eventRoutes,
@@ -10,36 +10,35 @@ const {
   documentRoutes,
 } = require("../src/routes");
 require("dotenv").config();
-const logger = require("./utils/logger");
-app.use(express.json());
-logger.info("Application started");
 
-const apiRoutes = express.Router();
+app.use(express.json());
+
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN,
     credentials: true,
   })
 );
+app.use((err, req, res, next) => {
+  logger.error("An error occurred:", err);
+  res.status(500).json({ error: "Internal Server Error" });
+});
 
+const apiRoutes = express.Router();
 apiRoutes.use("/events", eventRoutes);
 apiRoutes.use("/locations", locationRoutes);
 apiRoutes.use("/guests", guestRoutes);
 apiRoutes.use("/documents", documentRoutes);
-
 app.use("/api", apiRoutes);
 
-sequelize
-  .sync()
+setupDatabase()
   .then(() => {
-    logger.info("Database & tables created successfully");
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+      logger.info(`Server is running on port ${PORT}`);
+    });
   })
-  .catch((err) => {
-    logger.error("Error creating database & tables:", err);
+  .catch((error) => {
+    logger.error("Error setting up the database:", error);
+    process.exit(1);
   });
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  logger.info(`Server is running on port ${PORT}`);
-});

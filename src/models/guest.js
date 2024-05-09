@@ -1,9 +1,10 @@
 // src/models/guest.js
-const { DataTypes } = require("sequelize");
+const { DataTypes, Model } = require("sequelize");
 const sequelize = require("../config/db");
 
-const Guest = sequelize.define(
-  "Guest",
+class Guest extends Model {}
+
+Guest.init(
   {
     guestName: {
       type: DataTypes.STRING,
@@ -22,6 +23,7 @@ const Guest = sequelize.define(
   {
     sequelize,
     modelName: "Guest",
+    tableName: "Events",
   }
 );
 

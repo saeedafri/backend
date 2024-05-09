@@ -1,3 +1,6 @@
+const { Sequelize } = require("sequelize");
+const sequelize = require("../src/config/db");
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert("Guests", [
@@ -18,6 +21,6 @@ module.exports = {
     ]);
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("Guests", null, {});
+    return queryInterface.bulkDelete("Guests", null, {}); // Use model name "Guest" instead of "Guests"
   },
 };
