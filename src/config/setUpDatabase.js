@@ -9,13 +9,14 @@ const sequelize = new Sequelize(process.env.DB_URL, {
 
 async function setupDatabase() {
   try {
+    const dbName = process.env.DB_NAME;
+
     // Drop the database
-    const dropCommand = "DROP DATABASE IF EXISTS event_organizing_application;";
+    const dropCommand = `DROP DATABASE IF EXISTS ${dbName};`;
     await sequelize.query(dropCommand);
 
     // Create the database
-    const createCommand =
-      "CREATE DATABASE IF NOT EXISTS event_organizing_application;";
+    const createCommand = `CREATE DATABASE IF NOT EXISTS ${dbName};`;
     await sequelize.query(createCommand);
 
     // Run migrations
