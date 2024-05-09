@@ -3,9 +3,18 @@ const { execSync } = require("child_process");
 const logger = require("../utils/logger");
 require("dotenv").config();
 
-const sequelize = new Sequelize(process.env.DB_URL, {
-  logging: true, // Enable logging of SQL queries
-});
+// Adjusted to match the structure used in db.js
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASS,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: "mysql",
+    logging: true, // Enable logging of SQL queries
+  }
+);
 
 async function setupDatabase() {
   try {
