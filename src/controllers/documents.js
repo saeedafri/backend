@@ -1,4 +1,3 @@
-const express = require("express");
 const Document = require("../models/document");
 const logger = require("../utils/logger");
 

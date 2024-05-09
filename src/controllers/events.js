@@ -1,11 +1,8 @@
 const Event = require("../models/event");
-const Location = require("../models/location");
-const { checkVenueAvailability } = require("../services/eventService");
-const User = require("../models/user");
 const ControllerError = require("../utils/errors");
 const logger = require("../utils/logger");
 const axios = require("axios");
-const axios = require("axios");
+const { notifyGuests } = require("../services/notifications");
 require("dotenv").config();
 
 async function translateText(text, sourceLanguage, targetLanguage = "en") {
@@ -23,41 +20,46 @@ async function translateText(text, sourceLanguage, targetLanguage = "en") {
 }
 
 let createEvent = async (req, res) => {
-  const { name, description, date, time, duration, locationId, userId } =
-    req.body;
+  const {
+    eventName,
+    eventDescription,
+    eventDate,
+    eventTime,
+    eventDuration,
+    eventLocationName,
+    eventGuestIDs,
+    guestNotificationType,
+    reminderDurationMinutes,
+  } = req.body;
 
   try {
-    const user = await User.findByPk(userId);
-    if (!user) {
-      throw new ControllerError(
-        "USER_NOT_FOUND",
-        "The user could not be found."
-      );
-    }
-
-    const venue = await Location.findByPk(locationId);
-    const startTime = new Date(date);
-    const endTime = new Date(date.getTime() + duration * 60000);
-
-    if (await checkVenueAvailability(venue, startTime, endTime)) {
-      throw new Error(
-        "The venue is already booked during the proposed event time."
-      );
-    }
-
-    const translatedName = await translateText(name, "hi", "en");
-    const translatedDescription = await translateText(description, "hi", "en");
+    const translatedName = await translateText(eventName, "hi", "en");
+    const translatedDescription = await translateText(
+      eventDescription,
+      "hi",
+      "en"
+    );
 
     const newEvent = await Event.create({
-      name: translatedName,
-      description: translatedDescription,
-      date,
-      time,
-      duration,
-      locationId,
-      userId,
+      eventName: translatedName,
+      eventDescription: translatedDescription,
+      eventDate,
+      eventTime,
+      eventDuration,
+      eventLocationName,
+      eventGuestIDs,
+      guestNotificationType,
+      reminderDurationMinutes,
     });
     logger.info(`Event created successfully. Event ID: ${newEvent.id}`);
+
+    await notifyGuests({
+      eventGuestIDs,
+      guestNotificationType,
+      reminderDurationMinutes,
+      eventDate,
+      eventTime,
+    });
     res.status(201).json(newEvent);
   } catch (error) {
     logger.error(`Error creating event: ${error.message}`);

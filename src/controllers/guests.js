@@ -1,4 +1,4 @@
-const logger = require("../utils/logger"); // Ensure this path matches where your logger.js is located
+const logger = require("../utils/logger");
 const Guest = require("../models/guest");
 
 let createGuest = async (req, res) => {
@@ -35,56 +35,24 @@ let getAllGuestsForEvent = async (_req, res) => {
   }
 };
 
-let updateGuest = async (req, res) => {
-  const { id } = req.params;
-  const { firstName, lastName } = req.body;
-
+let getGuestById = async (id) => {
   try {
-    const [updated] = await Guest.update(
-      {
-        firstName,
-        lastName,
-      },
-      {
-        where: { id: Number(id) },
-      }
-    );
-    if (updated) {
-      logger.info(`Guest updated successfully. ID: ${id}`);
-      res.status(200).json({ message: "Guest updated successfully." });
-    } else {
-      res.status(404).json({ message: "Guest not found." });
+    const guest = await Guest.findByPk(id); // Assuming findByPk is available for Sequelize
+    if (!guest) {
+      throw new Error("Guest not found.");
     }
+    // Return the guest's email and Slack ID
+    return {
+      email: guest.email, // Assuming your Guest model has an email field
+      slackId: guest.slackId, // Assuming your Guest model has a slackId field
+    };
   } catch (error) {
-    logger.error(`Error updating guest: ${error.message}`);
-    res
-      .status(500)
-      .json({ error: "An error occurred while updating the guest." });
-  }
-};
-
-let deleteGuest = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const deleted = await Guest.destroy({
-      where: { id: Number(id) },
-    });
-    if (deleted) {
-      logger.info(`Guest deleted successfully. ID: ${id}`);
-      res.status(200).json({ message: "Guest deleted successfully." });
-    } else {
-      res.status(404).json({ message: "Guest not found." });
-    }
-  } catch (error) {
-    logger.error(`Error deleting guest: ${error.message}`);
-    res
-      .status(500)
-      .json({ error: "An error occurred while deleting the guest." });
+    throw new Error(`Error fetching guest details: ${error.message}`);
   }
 };
 
 module.exports = {
   createGuest,
   getAllGuestsForEvent,
+  getGuestById,
 };

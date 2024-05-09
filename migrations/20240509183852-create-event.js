@@ -1,4 +1,5 @@
 "use strict";
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("Events", {
@@ -8,37 +9,39 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      name: {
+      eventName: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      description: {
+      eventDescription: {
         type: Sequelize.TEXT,
       },
-      date: {
+      eventDate: {
         type: Sequelize.DATE,
       },
-      time: {
+      eventTime: {
         type: Sequelize.TIME,
       },
-      duration: {
+      eventDuration: {
         type: Sequelize.INTEGER,
       },
-      locationId: {
+      eventLocationName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      eventGuestIDs: {
+        type: Sequelize.JSON,
+        allowNull: false,
+      },
+      guestNotificationType: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: "Email",
+      },
+      reminderDurationMinutes: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: "Locations",
-          key: "id",
-        },
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false, // Set allowNull to false if userId is required
-        references: {
-          model: "Users",
-          key: "id",
-        },
+        defaultValue: 60,
       },
       createdAt: {
         allowNull: false,
@@ -50,6 +53,7 @@ module.exports = {
       },
     });
   },
+
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable("Events");
   },

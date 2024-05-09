@@ -1,7 +1,6 @@
 // src/models/document.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
-const DocumentEvent = require("./document-event"); // Import the join table model
 
 const Document = sequelize.define(
   "Document",
@@ -20,9 +19,5 @@ const Document = sequelize.define(
     modelName: "Document",
   }
 );
-
-// Define the association
-// Document.hasMany(DocumentEvent, { foreignKey: "documentId" });
-// DocumentEvent.belongsTo(Document, { foreignKey: "documentId" });
 
 module.exports = Document;

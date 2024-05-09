@@ -4,7 +4,6 @@ const express = require("express");
 const router = express.Router();
 
 const controllers = {
-  UserController: require("./users"),
   LocationController: require("./locations"),
   EventController: require("./events"),
   GuestController: require("./guests"),
