@@ -31,14 +31,7 @@ apiRoutes.use("/guests", guestRoutes);
 apiRoutes.use("/documents", documentRoutes);
 app.use("/api", apiRoutes);
 
-setupDatabase()
-  .then(() => {
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-      logger.info(`Server is running on port ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    logger.error("Error setting up the database:", error);
-    process.exit(1);
-  });
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  logger.info(`Server is running on port ${PORT}`);
+});
