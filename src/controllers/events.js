@@ -33,16 +33,16 @@ let createEvent = async (req, res) => {
   } = req.body;
 
   try {
-    const translatedName = await translateText(eventName, "hi", "en");
-    const translatedDescription = await translateText(
-      eventDescription,
-      "hi",
-      "en"
-    );
+    // const translatedName = await translateText(eventName, "hi", "en");
+    // const translatedDescription = await translateText(
+    //   eventDescription,
+    //   "hi",
+    //   "en"
+    // );
 
     const newEvent = await Event.create({
-      eventName: translatedName,
-      eventDescription: translatedDescription,
+      eventName: eventName,
+      eventDescription: eventDescription,
       eventDate,
       eventTime,
       eventDuration,
@@ -53,13 +53,13 @@ let createEvent = async (req, res) => {
     });
     logger.info(`Event created successfully. Event ID: ${newEvent.id}`);
 
-    await notifyGuests({
-      eventGuestIDs,
-      guestNotificationType,
-      reminderDurationMinutes,
-      eventDate,
-      eventTime,
-    });
+    // await notifyGuests({
+    //   eventGuestIDs,
+    //   guestNotificationType,
+    //   reminderDurationMinutes,
+    //   eventDate,
+    //   eventTime,
+    // });
     res.status(201).json(newEvent);
   } catch (error) {
     logger.error(`Error creating event: ${error.message}`);
