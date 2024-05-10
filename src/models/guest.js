@@ -23,7 +23,7 @@ Guest.init(
   {
     sequelize,
     modelName: "Guest",
-    tableName: "Events",
+    tableName: "Guests",
   }
 );
 
