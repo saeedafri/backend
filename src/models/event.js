@@ -25,7 +25,7 @@ Event.init(
       type: DataTypes.TIME,
     },
     eventDuration: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     eventLocationName: {
       type: DataTypes.STRING,
@@ -41,9 +41,9 @@ Event.init(
       defaultValue: "Email",
     },
     reminderDurationMinutes: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 60,
+      defaultValue: "60",
     },
     createdAt: {
       allowNull: false,

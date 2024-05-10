@@ -23,7 +23,7 @@ module.exports = {
         type: Sequelize.TIME,
       },
       eventDuration: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       eventLocationName: {
         type: Sequelize.STRING,
@@ -39,9 +39,9 @@ module.exports = {
         defaultValue: "Email",
       },
       reminderDurationMinutes: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 60,
+        defaultValue: "60",
       },
       createdAt: {
         allowNull: false,
